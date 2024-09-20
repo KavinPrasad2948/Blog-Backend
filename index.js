@@ -2,6 +2,8 @@ const express = require("express");
 const mongoose = require("mongoose");
 const cors = require("cors");
 const bodyParser = require("body-parser");
+const  dotenv =require( "dotenv");
+dotenv.config();
 
 const Http_server = express();
 
@@ -11,9 +13,17 @@ const PORT = 3000
 
 //! connect the mongodb
 
-mongoose.connect('mongodb://localhost:27017/blogdb')
-  .then(() => console.log('MongoDB connected'))
-  .catch((err) => console.error('MongoDB connection error:', err));
+mongoose
+    .connect(process.env.MONGO_URI, {
+      dbName: "blogdb",
+    })
+    .then(() => { 
+      console.log("Connected to database!");
+    })
+    .catch((err) => {
+      console.log("Some error occured while connecting to database:", err);
+    });
+
 
 //! Schema
 
